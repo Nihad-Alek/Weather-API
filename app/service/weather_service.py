@@ -41,10 +41,11 @@ def get_weather_data(city: str):
             'message': 'OK'
             }
     except httpx.HTTPStatusError as error:
-        raise HTTPException(status_code=404, detail=f"City '{city}' not found")
-    
-    except httpx.RequestError as error:
-        raise HTTPException(status_code=500, detail=f"Error fetching weather data")
+        if error.status_code == 404:
+            raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+        raise HTTPException(status_code=500, detail='Error from server')
+    except httpx.RequestError:
+        raise HTTPException(status_code=500 , detail=f"Error fetching weather data")
     
 def get_weather_data_forecast(city: str):
     params = {
@@ -52,6 +53,8 @@ def get_weather_data_forecast(city: str):
         'appid': api_key,
         'units': 'metric'
     }
+    if not api_key:
+        raise HTTPException(status_code=500 , detail='API key not found')
     try:
         response = httpx.get(BASE_URL_forecast , params=params , timeout=10)
         response.raise_for_status()
@@ -92,8 +95,10 @@ def get_weather_data_forecast(city: str):
             'data': forecast,
             'message': 'OK'
             }
-    except httpx.HTTPStatusError:
-        raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+    except httpx.HTTPStatusError as error:
+        if error.status_code == 404:
+            raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+        raise HTTPException(status_code=500, detail='Error from server')
     except httpx.RequestError:
         raise HTTPException(status_code=500 , detail=f"Error fetching weather data")
     
@@ -103,6 +108,8 @@ def get_weather_rain_probability(city: str):
         'appid' : api_key,
         'units' : 'metric'
     }
+    if not api_key:
+        raise HTTPException(status_code=500 , detail='API key not found')
     try:
         response = httpx.get('https://api.openweathermap.org/data/2.5/forecast' , params=params , timeout=10)
         response.raise_for_status()
@@ -131,7 +138,9 @@ def get_weather_rain_probability(city: str):
             'data' : rain_probability,
             'message' : 'OK'
         }
-    except httpx.HTTPStatusError:
-        raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+    except httpx.HTTPStatusError as error:
+        if error.status_code == 404:
+            raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+        raise HTTPException(status_code=500, detail='Error from server')
     except httpx.RequestError:
         raise HTTPException(status_code=500 , detail=f"Error fetching weather data")

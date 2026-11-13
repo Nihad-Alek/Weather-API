@@ -27,7 +27,7 @@ A REST API built with FastAPI that provides current weather information and weat
 
 1. Clone the repository:
 
-   git clone YOUR_REPOSITORY_URL
+   https://github.com/Nihad-Alek/Weather-API
 
 2. Navigate to the project directory:
 

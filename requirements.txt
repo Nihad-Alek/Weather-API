@@ -1,4 +1,3 @@
 fastapi[standard]
-uvicorn
-requests
 python-dotenv
+httpx
