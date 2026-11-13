@@ -41,7 +41,7 @@ def get_weather_data(city: str):
             'message': 'OK'
             }
     except httpx.HTTPStatusError as error:
-        if error.status_code == 404:
+        if error.response.status_code == 404:
             raise HTTPException(status_code=404, detail=f"City '{city}' not found")
         raise HTTPException(status_code=500, detail='Error from server')
     except httpx.RequestError:
@@ -96,7 +96,7 @@ def get_weather_data_forecast(city: str):
             'message': 'OK'
             }
     except httpx.HTTPStatusError as error:
-        if error.status_code == 404:
+        if error.response.status_code == 404:
             raise HTTPException(status_code=404, detail=f"City '{city}' not found")
         raise HTTPException(status_code=500, detail='Error from server')
     except httpx.RequestError:
@@ -128,7 +128,7 @@ def get_weather_rain_probability(city: str):
         
         for day, values in time_rain.items():
                 rain_probability.append({
-                    'time_lebel' : day,
+                    'time_label' : day,
                     'probability': values['probability'],
                     'condition': values['condition']
                 })
@@ -139,7 +139,7 @@ def get_weather_rain_probability(city: str):
             'message' : 'OK'
         }
     except httpx.HTTPStatusError as error:
-        if error.status_code == 404:
+        if error.response.status_code == 404:
             raise HTTPException(status_code=404, detail=f"City '{city}' not found")
         raise HTTPException(status_code=500, detail='Error from server')
     except httpx.RequestError:
