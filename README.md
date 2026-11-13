@@ -1,19 +1,27 @@
 # Weather API
 
-A simple REST API built with FastAPI that provides current weather information using OpenWeather API.
+A REST API built with FastAPI that provides current weather information and weather forecasts using the OpenWeather API.
 
 ## Features
 
-- Get current weather by city name
-- Handle invalid city names and return appropriate error responses.
-- Handle HTTP requests error
+- Get current weather by city name.
+- Retrieve weather forecasts.
+- Get forecast information for different time periods.
+- Handle invalid city names.
+- Handle HTTP request errors.
+- Return structured JSON responses.
 
 ## Technologies 
 
 - Python
 - FastAPI
 - HTTPX
-- OpenWeather API 
+- OpenWeather API
+- python-dotenv
+
+## Standard Library:
+- datetime — Used for working with dates and times, such as determining the day of the week.
+- os — Used for interacting with environment variables and the operating system.
 
 ## Installation 
 
